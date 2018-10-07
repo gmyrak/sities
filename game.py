@@ -1,3 +1,4 @@
+print('Begin')
 f = open('base/city.csv', mode='r', encoding='cp1251')
 
 
