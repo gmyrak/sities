@@ -8,3 +8,4 @@ for line in f:
 
 
 f.close()
+print('OK')
