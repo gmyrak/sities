@@ -71,7 +71,7 @@ class Game():
             words_on_letter.add(NormName)
             self.can_said_by_letter[k1] = words_on_letter
 
-    def chouse (self, a):
+    def choose (self, a):
         A: set = self.can_said_by_letter.get(norma(a), {})
         if A:
             AL : list = list(A)
@@ -104,7 +104,7 @@ if __name__ == '__main__':
     g = Game()
 
     while True:
-        w = g.chouse('о')
+        w = g.choose('о')
         if w:
             inf = get_info(w,2)
             print(w, inf.name, inf.region, inf.country, inf.count)
