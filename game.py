@@ -1,4 +1,5 @@
 import re
+import random
 
 city = {}
 region = {}
@@ -42,10 +43,65 @@ for line in f:
 f.close()
 
 
+
+def get_info(name):
+    name = norma(name)
+    items = city.get(name)
+    res = ()
+    if items:
+        for item in items:
+            res += ((item.name, country[item.country_id], region[item.region_id]),)
+    return res
+
+class Game():
+    def __init__(self):
+        self.were_said : set = set()
+        self.can_said_by_letter : dict = {}
+        for NormName in city.keys():
+            k1 = NormName[0]
+            words_on_letter : set = self.can_said_by_letter.get(k1, set())
+            words_on_letter.add(NormName)
+            self.can_said_by_letter[k1] = words_on_letter
+
+    def chouse (self, a):
+        A: set = self.can_said_by_letter.get(norma(a), {})
+        if A:
+            AL : list = list(A)
+            chouse_word = AL[random.randint(0, len(AL) - 1)]
+            A.discard(chouse_word)
+            self.were_said.add(chouse_word)
+            return chouse_word
+        else:
+            return None
+
+    def count(self, a):
+        return len(self.can_said_by_letter.get(a.upper(), []))
+
+    def accept(self, word):
+        word = norma(word)
+        if word in self.were_said:
+            return False
+        A = self.can_said_by_letter.get(word[0])
+        if A and word in A:
+            A.discard(word)
+            self.were_said.add(word)
+            return True
+        else:
+            return False
+
+
+
+
 if __name__ == '__main__':
+    g = Game()
+    #for k in sorted(g.can_said_by_letter.keys()):
+    #    print(k, g.can_said_by_letter[k])
+    #print(g.count('Е'))
 
-    for city_name in sorted(city.keys()):
-        for c in city[city_name]:
-            print('{} | {}; {}; {}'.format(city_name, c.name, region[c.region_id], country[c.country_id]))
-            #print('{} '.format(c.name))
-
+    while True:
+        w = g.chouse('я')
+        if w:
+            #town = city[w][0]
+            print(w, get_info(w)[0])
+        else:
+            break
