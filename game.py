@@ -5,7 +5,7 @@ city = {}
 region = {}
 country = {}
 
-class city_info:
+class info:
     pass
 
 
@@ -19,7 +19,7 @@ f = open('base/city.csv', mode='r', encoding='cp1251')
 for line in f:
     city_id, country_id, region_id, name = (s.strip('"') for s in line.strip().split(';'))
 
-    c = city_info()
+    c = info()
     c.name = name
     c.city_id = city_id
     c.region_id = region_id
@@ -43,15 +43,23 @@ for line in f:
 f.close()
 
 
-
-def get_info(name):
+def get_info(name, id=0):
     name = norma(name)
     items = city.get(name)
-    res = ()
     if items:
-        for item in items:
-            res += ((item.name, country[item.country_id], region[item.region_id]),)
-    return res
+        inf = info()
+        inf.count = len(items)
+        if id > inf.count-1:
+            id = inf.count-1
+        inf.order = id
+        item = items[id]
+        inf.name = item.name
+        inf.country = country[item.country_id]
+        inf.region = region[item.region_id]
+        return inf
+    else:
+        return None
+
 
 class Game():
     def __init__(self):
@@ -94,14 +102,11 @@ class Game():
 
 if __name__ == '__main__':
     g = Game()
-    #for k in sorted(g.can_said_by_letter.keys()):
-    #    print(k, g.can_said_by_letter[k])
-    #print(g.count('Е'))
 
     while True:
-        w = g.chouse('я')
+        w = g.chouse('о')
         if w:
-            #town = city[w][0]
-            print(w, get_info(w)[0])
+            inf = get_info(w,2)
+            print(w, inf.name, inf.region, inf.country, inf.count)
         else:
             break
