@@ -11,6 +11,4 @@ control_panel.place(width=200, relheight=True)
 
 control_panel.configure(bg = 'red')
 
-
-
 root.mainloop()

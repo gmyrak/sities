@@ -1,17 +1,22 @@
 import re
 import random
 
+PossibleFirst = 'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯ'
+
 city = {}
 region = {}
 country = {}
 
 class info:
-    pass
+    def __str__(self):
+        #return str(self.__dict__)
+        return  '\n\t'.join('{}={}'.format(k, self.__dict__[k])  for k in sorted(self.__dict__.keys()) )
 
 
 def norma(name):
     name = re.sub(r'\(.+\)', '', name)
     name = re.sub(r'\W', '', name)
+    name = re.sub('Ё', 'E', name, flags=re.IGNORECASE)
     return name.upper()
 
 
@@ -61,6 +66,30 @@ def get_info(name, id=0):
         return None
 
 
+def next_letters(name):
+    full_name = get_info(name).name
+    full_name = re.sub(r'\(.+\)', '', full_name)
+    full_name = full_name.strip()
+    lett = set()
+    for n in re.split(r'\W', full_name):
+        if len(n)==0:
+            continue
+        i = -1
+        while n[i].upper() in 'ЬЪЫ':
+            i -= 1
+        s = n[i].upper()
+        lett.add(s)
+        if s == 'Й':
+            lett.add('И')
+            i -= 1
+            while n[i].upper() in 'ЬЪЫ':
+                i -= 1
+            lett.add(n[i].upper())
+        elif s == 'Ё':
+            lett.add('Е')
+    return lett
+
+
 class Game():
     def __init__(self):
         self.were_said : set = set()
@@ -82,6 +111,16 @@ class Game():
         else:
             return None
 
+    def multi_choose(self, A):
+        ARR = list(A)
+        while ARR:
+            pos = random.randint(0, len(ARR)-1)
+            ch_letter = ARR.pop(pos)
+            ch_word = self.choose(ch_letter)
+            if ch_word:
+                return ch_word
+        return None
+
     def count(self, a):
         return len(self.can_said_by_letter.get(a.upper(), []))
 
@@ -98,15 +137,19 @@ class Game():
             return False
 
 
-
-
 if __name__ == '__main__':
     g = Game()
-
+    i = 1
+    start = PossibleFirst
     while True:
-        w = g.choose('о')
+        w = g.multi_choose(start)
         if w:
-            inf = get_info(w,2)
-            print(w, inf.name, inf.region, inf.country, inf.count)
+            inf = get_info(w)
+            nl = next_letters(w)
+            print(i, inf.name)
+            start = nl
+            i += 1
         else:
             break
+
+
