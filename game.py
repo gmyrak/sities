@@ -91,10 +91,12 @@ def next_letters(name):
 
 
 class Game():
-    def __init__(self):
+    def __init__(self, remember=100):
         self.were_said : set = set()
         self.can_said_by_letter : dict = {}
         for NormName in city.keys():
+            if random.random() > remember/100:
+                continue
             k1 = NormName[0]
             words_on_letter : set = self.can_said_by_letter.get(k1, set())
             words_on_letter.add(NormName)
@@ -138,7 +140,7 @@ class Game():
 
 
 if __name__ == '__main__':
-    g = Game()
+    g = Game(10)
     i = 1
     start = PossibleFirst
     while True:
@@ -146,7 +148,7 @@ if __name__ == '__main__':
         if w:
             inf = get_info(w)
             nl = next_letters(w)
-            print(i, inf.name)
+            print(i, inf.name, inf.country, inf.region)
             start = nl
             i += 1
         else:
