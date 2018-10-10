@@ -130,9 +130,9 @@ class Game():
         word = norma(word)
         if word in self.were_said:
             return False
-        A = self.can_said_by_letter.get(word[0])
-        if A and word in A:
-            A.discard(word)
+        if word in city:
+            A = self.can_said_by_letter.get(word[0])
+            A and A.discard(word)
             self.were_said.add(word)
             return True
         else:
