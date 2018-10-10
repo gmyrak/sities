@@ -15,16 +15,26 @@ wait = True
 
 while True:
     inf = game.get_info(word)
-    print('{name} // {country}; {region}'.format( **inf.__dict__ ) )
+    print('{p}{name} // {country}; {region}'.format( **inf.__dict__, p= '>' if wait else '<') )
     next = game.next_letters(word)
     if wait:
-        word = input('{}>'.format(next))
-        if g.accept(word):
-            continue
+        while True:
+            word = input('{}>'.format(next))
+            if not game.norma(word)[0] in next:
+                print('Первая буква должна быть {}'.format(next))
+                continue
+            acc = g.accept(word)
+            if acc==0:
+                wait = False
+                break
+            elif acc==1:
+                print('Этот город уже был назван')
+            else:
+                print('Нет такого города')
+    else:
+        word = g.multi_choose(next)
+        if not word:
+            print('Не знаю больше городов')
+            break
         else:
-            print('Нет такого города')
-    break
-
-
-
-
+            wait = True

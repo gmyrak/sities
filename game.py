@@ -129,14 +129,14 @@ class Game():
     def accept(self, word):
         word = norma(word)
         if word in self.were_said:
-            return False
+            return 1
         if word in city:
             A = self.can_said_by_letter.get(word[0])
             A and A.discard(word)
             self.were_said.add(word)
-            return True
+            return 0
         else:
-            return False
+            return 2
 
 
 if __name__ == '__main__':
