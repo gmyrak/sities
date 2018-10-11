@@ -10,6 +10,8 @@ print('Level of game = {}%'.format(level))
 
 g = game.Game(level)
 
+print('Я помню {} городов'.format(g.remember_count))
+
 word  = g.multi_choose(game.PossibleFirst)
 wait = True
 

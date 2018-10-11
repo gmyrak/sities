@@ -91,6 +91,9 @@ def next_letters(name):
 
 
 class Game():
+
+    remember_count = 0
+
     def __init__(self, remember=100):
         self.were_said : set = set()
         self.can_said_by_letter : dict = {}
@@ -101,6 +104,7 @@ class Game():
             words_on_letter : set = self.can_said_by_letter.get(k1, set())
             words_on_letter.add(NormName)
             self.can_said_by_letter[k1] = words_on_letter
+            self.remember_count += 1
 
     def choose (self, a):
         A: set = self.can_said_by_letter.get(norma(a), {})
