@@ -10,18 +10,25 @@ root.title('Города')
 
 
 control_panel = tk.Frame(root)
-control_panel.place(width=400, relheight=True)
-
 text_panel = tk.Frame(root)
-text_panel.place(width=400, relheight=True, x=400)
+
+control_panel.place(width=400, relheight=1)
+text_panel.place(width=400, relheight=1, relwidth=1, x=400)
 
 
 en = tk.Entry(control_panel, font='Verdana 20 bold')
 en.place(width=380, x=10, y=20)
 
 
+
+
 text = tk.Text(text_panel)
-text.place(relheight=True, relwidth=True)
+text.place(relx=20, relheight=1, relwidth=1)
+
+Scrol = tk.Scrollbar(text_panel)
+Scrol.place(width=20, relheight=1)
+Scrol['command'] = text.yview
+text['yscrollcommand'] = Scrol.set
 
 
 control_panel.configure(bg = 'gray')
