@@ -19,9 +19,6 @@ text_panel.place(width=400, relheight=1, relwidth=1, x=400)
 en = tk.Entry(control_panel, font='Verdana 20 bold')
 en.place(width=380, x=10, y=20)
 
-
-
-
 text = tk.Text(text_panel)
 text.place(relx=20, relheight=1, relwidth=1)
 
@@ -30,7 +27,10 @@ Scrol.place(width=20, relheight=1)
 Scrol['command'] = text.yview
 text['yscrollcommand'] = Scrol.set
 
-
 control_panel.configure(bg = 'gray')
+
+
+
+
 
 root.mainloop()

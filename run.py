@@ -15,6 +15,8 @@ print('Я помню {} городов'.format(g.remember_count))
 word  = g.multi_choose(game.PossibleFirst)
 wait = True
 
+
+
 while True:
     inf = game.get_info(word)
     print('{p}{name} // {country}; {region}'.format( **inf.__dict__, p= '>' if wait else '<') )
