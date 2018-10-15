@@ -1,6 +1,6 @@
 import tkinter as tk
-#from tkinter.font import Font
 import game
+
 
 root = tk.Tk()
 root.geometry('800x600')
