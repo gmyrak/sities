@@ -1,6 +1,7 @@
 import tkinter as tk
 import game
-1
+
+'dev version'
 
 root = tk.Tk()
 root.geometry('800x600')
