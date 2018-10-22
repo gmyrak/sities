@@ -10,14 +10,23 @@ root.title('Города')
 #myFont = Font(family="Times New Roman bold", size=16)
 
 
-panel_ctrl = tk.Frame(root)
+panel_ctrl = tk.Frame(root, width=400, bg='gray')
 panel_text = tk.Frame(root)
 
+panel_ctrl.pack(side='left', fill='y')
+
+en = tk.Entry(panel_ctrl, font='Verdana 20 bold')
+en.pack(padx=10, pady=10)
+
+but = tk.Button(panel_ctrl, text='OK')
+but.pack(padx=10, pady=10)
+
+'''
 panel_ctrl.place(width=400, relheight=1)
 panel_text.place(width=400, relheight=1, relwidth=1, x=400)
 
 
-en = tk.Entry(panel_ctrl, font='Verdana 20 bold')
+
 en.place(relwidth=0.8, relx=0.1, y=20)
 
 but = tk.Button(panel_ctrl, text='OK')
@@ -33,7 +42,7 @@ Scrol['command'] = text.yview
 text['yscrollcommand'] = Scrol.set
 
 panel_ctrl.configure(bg ='gray')
-
+'''
 
 
 
