@@ -1,10 +1,11 @@
 from tkinter import *
 
-X, Y = 800, 600
-X0, Y0 = 3*X/5, Y/2
-s1 = 300
+X, Y = 400, 300
 
-MAX_ITER = 100
+X0, Y0 = 3*X/5, Y/2
+s1 = 100
+
+MAX_ITER = 50
 
 
 def mandelbrot(c):
@@ -30,6 +31,7 @@ def dec_y(j):
 
 
 root = Tk()
+root.resizable(0, 0)
 cn = Canvas(root, width=X, height=Y, bg='white')
 img = PhotoImage(width=X,height=Y)
 
@@ -44,4 +46,8 @@ cn.create_image(0, 0, anchor=NW, image=img)
 cn.create_line(0, Y0, X, Y0, arrow='last')
 cn.create_line(X0, Y, X0, 0, arrow='last')
 cn.pack()
+
+pn = Frame(height=50)
+pn.pack(fill='x')
+
 root.mainloop()
