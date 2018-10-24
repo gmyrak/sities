@@ -1,25 +1,33 @@
 import tkinter as tk
 import game
 
-'dev version'
+
 
 root = tk.Tk()
-root.geometry('800x600')
+#root.geometry('800x600')
 root.title('Города')
-#root.resizable(False, False)
+root.resizable(True, True)
 #myFont = Font(family="Times New Roman bold", size=16)
 
-
 panel_ctrl = tk.Frame(root, width=400, bg='gray')
-panel_text = tk.Frame(root)
-
 panel_ctrl.pack(side='left', fill='y')
 
 en = tk.Entry(panel_ctrl, font='Verdana 20 bold')
 en.pack(padx=10, pady=10)
 
-but = tk.Button(panel_ctrl, text='OK')
+but = tk.Button(panel_ctrl, text='OK', width=10)
 but.pack(padx=10, pady=10)
+
+text = tk.Text(root)
+text.pack(side='left', fill='both', expand=1)
+scroll = tk.Scrollbar(command=text.yview)
+scroll.pack(side='left', fill='y')
+text.config(yscrollcommand=scroll.set)
+
+
+#cn = tk.Canvas(root, bg='yellow')
+#cn.pack(side='left', fill='both', expand=1)
+
 
 '''
 panel_ctrl.place(width=400, relheight=1)
