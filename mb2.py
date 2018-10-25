@@ -1,11 +1,11 @@
 from tkinter import *
 
-X, Y = 400, 300
+X, Y = 300, 200
 
 X0, Y0 = 3*X/5, Y/2
 s1 = 100
 
-MAX_ITER = 50
+MAX_ITER = 100
 
 
 def mandelbrot(c):
@@ -35,19 +35,46 @@ root.resizable(0, 0)
 cn = Canvas(root, width=X, height=Y, bg='white')
 img = PhotoImage(width=X,height=Y)
 
-for i in range(X):
-    for j in range(Y):
-        c = complex(dec_x(i), dec_y(j))
-        img.put( color(mandelbrot(c)) , to=(i, j))
-
-img.write('pic{}x{}({}).gif'.format(X, Y, MAX_ITER))
-
 cn.create_image(0, 0, anchor=NW, image=img)
-cn.create_line(0, Y0, X, Y0, arrow='last')
-cn.create_line(X0, Y, X0, 0, arrow='last')
+
+def draw():
+    img.blank()
+    for i in range(X):
+        for j in range(Y):
+            c = complex(dec_x(i), dec_y(j))
+            img.put( color(mandelbrot(c)) , to=(i, j))
+
+    img.write('pic{}x{}({}).gif'.format(X, Y, MAX_ITER))
+
+    cn.create_image(0, 0, anchor=NW, image=img)
+    cn.create_line(0, Y0, X, Y0, arrow='last')
+    cn.create_line(X0, Y, X0, 0, arrow='last')
+
+
+draw()
 cn.pack()
 
 pn = Frame(height=50)
 pn.pack(fill='x')
+
+
+def cn_clisk(event):
+    print(event.x, event.y)
+
+
+cn.bind('<Button-1>', cn_clisk)
+
+
+def act_press():
+    cn.delete('all')
+    inf = cn.create_text(20, 30, text='Wait...')
+    cn.update()
+    draw()
+    cn.delete(inf)
+
+
+
+act = Button(pn, text='OK', command=act_press)
+act.pack(side='left')
 
 root.mainloop()
