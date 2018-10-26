@@ -2,8 +2,10 @@ from tkinter import *
 from time import time
 
 
-I_MAX, J_MAX = 800, 600
-ITER_LIMIT = 100
+I_MAX, J_MAX = 300, 200
+ITER_LIMIT = 50
+BASE_SIZE = I_MAX/4
+
 POINT_R = 3
 
 
@@ -29,7 +31,7 @@ class Fractal():
         self.draw()
 
     def size_one(self, scale):
-        return 200 * 10**scale
+        return BASE_SIZE * 10**scale
 
     def dec_x(self, i):
         return (i - self.i0) / self.s1
@@ -69,6 +71,9 @@ class Fractal():
         CNVS.create_line(0, self.j0, I_MAX, self.j0, arrow='last')
         CNVS.create_line(self.i0, J_MAX, self.i0, 0, arrow='last')
         CNVS.delete(inf)
+        if self.pointer > 0:
+            CNVS.delete(self.pointer)
+            self.pointer = 0
         print('Draw fractal {}x{} ({} iter): {:2f} c'.format(I_MAX, J_MAX, self.iter_limit, time() - t0))
 
     def set_pointer(self, i, j):
@@ -83,7 +88,6 @@ class Fractal():
         self.j0 = J_MAX/2 + s2 * (self.j0 - self.j_point)/self.s1
         self.s1 = s2
         self.iter_limit = iter_limit
-        self.i_point, self.j_point = I_MAX/2, J_MAX/2
         self.draw()
 
 
