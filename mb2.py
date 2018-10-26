@@ -1,8 +1,8 @@
 from tkinter import *
 from time import time
 
-X, Y = 300, 200
-MAX_ITER = 50
+X, Y = 800, 600
+MAX_ITER = 100
 BASE_SIZE = X/4
 scale = 0
 
@@ -103,12 +103,13 @@ ent_scale = Entry(pn, width=8)
 ent_iter = Entry(pn, width=8)
 
 def action():
-    global s1, px0, py0, MAX_ITER, scale
+    global s1, px0, py0, MAX_ITER, scale, cx, cy
     s2 = size1(float(ent_scale.get()))
     px0 = X/2 - s2*(cx - px0)/s1
     py0 = Y/2 + s2*(py0 - cy)/s1
     s1 = s2
     MAX_ITER = int(ent_iter.get())
+    cx, cy = X/2, Y/2
     draw()
 
 
