@@ -1,34 +1,61 @@
 from tkinter import *
 from time import time
 
-X, Y = 800, 600
-MAX_ITER = 100
-scale = 0
 
-def size1(s):
-    return 200*10**(s)
+I_MAX, J_MAX = 800, 600
+POINT_R = 3
 
-s1 = size1(scale)
-
-
-px0, py0 = 3 * X / 5, Y / 2
-
-point_r = 3
-pointer = 0
-
-cx, cy = X/2, Y/2
 
 def mandelbrot(c):
     z = c
     i = 0
-    while i < MAX_ITER and abs(z) < 2:
+    while i < iter_limit and abs(z) < 2:
         z = z**2 + c
         i += 1
     return i
 
 
+def size_one(s):
+    return 200 * 10**s
+
+
+class Fractal():
+    i0, j0 = 3 * I_MAX / 5, J_MAX / 2
+    iter_limit = 100
+    scale = 0
+    s1 = size_one(scale)
+    i_point, j_point = X / 2, Y / 2
+    pointer = 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+iter_limit = 100
+scale = 0
+
+
+
+s1 = size_one(scale)
+i0, j0 = 3 * I_MAX / 5, J_MAX / 2
+
+
+pointer = 0
+
+cx, cy = I_MAX / 2, J_MAX / 2
+
 def color(n):
-    tone = int(0xFFF - 0xFFF * n/MAX_ITER)
+    tone = int(0xFFF - 0xFFF * n / iter_limit)
     return '#{:03x}{:03x}{:03x}'.format(tone, tone, tone)
 #    if n==MAX_ITER:
 #        return '#000'
@@ -37,45 +64,48 @@ def color(n):
 
 
 def dec_x(i):
-    return (i - px0) / s1
+    return (i - i0) / s1
 
 
 def dec_y(j):
-    return (py0 - j) / s1
+    return (j0 - j) / s1
 
 
 root = Tk()
 root.title('Set of Malderbrot')
 root.resizable(0, 0)
-cn = Canvas(root, width=X, height=Y, bg='white')
+cn = Canvas(root, width=I_MAX, height=J_MAX, bg='white')
 cn.pack()
 
 
-img = PhotoImage(width=X,height=Y)
+img = PhotoImage(width=I_MAX, height=J_MAX)
+
+
+
 
 
 
 def draw():
     t0 = time()
     cn.delete('all')
-    inf = cn.create_text(X / 2, Y / 2, text='', anchor='center')
+    inf = cn.create_text(I_MAX / 2, J_MAX / 2, text='', anchor='center')
     cn.update()
     img.blank()
     per = 0
-    for i in range(X):
-        per2 = 100*i//X
+    for i in range(I_MAX):
+        per2 = 100 * i // I_MAX
         if per2 != per:
             per = per2
             cn.itemconfig(inf, text='Processing: {:3}%'.format(per), )
             cn.update()
-        for j in range(Y):
+        for j in range(J_MAX):
             c = complex(dec_x(i), dec_y(j))
             img.put( color(mandelbrot(c)) , to=(i, j))
     cn.create_image(0, 0, anchor=NW, image=img)
-    cn.create_line(0, py0, X, py0, arrow='last')
-    cn.create_line(px0, Y, px0, 0, arrow='last')
+    cn.create_line(0, j0, I_MAX, j0, arrow='last')
+    cn.create_line(i0, J_MAX, i0, 0, arrow='last')
     cn.delete(inf)
-    print('Draw fractal {}x{} ({} iter): {:2f} c'.format(X, Y, MAX_ITER, time() - t0))
+    print('Draw fractal {}x{} ({} iter): {:2f} c'.format(I_MAX, J_MAX, iter_limit, time() - t0))
 
 
 draw()
@@ -85,29 +115,29 @@ pn = Frame(height=50)
 pn.pack(fill='x')
 
 
-def cn_clisk(event):
+def cn_click(event):
     i, j = event.x, event.y
     global pointer
-    if (pointer > 0):
+    if pointer > 0:
         cn.delete(pointer)
-    pointer = cn.create_oval(i-point_r, j-point_r, i+point_r, j+point_r, fill='yellow', outline='red', tag='p')
+    pointer = cn.create_oval(i - POINT_R, j - POINT_R, i + POINT_R, j + POINT_R, fill='yellow', outline='red', tag='p')
     print(i, j)
     global cx, cy
     cx, cy = i, j
 
 
-cn.bind('<Button-1>', cn_clisk)
+cn.bind('<Button-1>', cn_click)
 
 ent_scale = Entry(pn, width=8)
 ent_iter = Entry(pn, width=8)
 
 def action():
-    global s1, px0, py0, MAX_ITER, scale
-    s2 = size1(float(ent_scale.get()))
-    px0 = X/2 - s2*(cx - px0)/s1
-    py0 = Y/2 + s2*(py0 - cy)/s1
+    global s1, i0, j0, iter_limit, scale
+    s2 = size_one(float(ent_scale.get()))
+    i0 = I_MAX / 2 - s2 * (cx - i0) / s1
+    j0 = J_MAX / 2 + s2 * (j0 - cy) / s1
     s1 = s2
-    MAX_ITER = int(ent_iter.get())
+    iter_limit = int(ent_iter.get())
     draw()
 
 
@@ -122,7 +152,7 @@ ent_scale.insert(0, str(scale))
 
 Label(pn, text='  Iter: ').pack(side='left')
 ent_iter.pack(side='left')
-ent_iter.insert(0, str(MAX_ITER))
+ent_iter.insert(0, str(iter_limit))
 
 
 root.mainloop()

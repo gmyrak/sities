@@ -1,21 +1,15 @@
-import random
-from tkinter import *
-
-X, Y = 400, 300
-
-root = Tk()
-
-img = Canvas(bg='white', width=X, height=Y)
-img.pack(fill='both', expand=1)
-
-def pix(x,y):
-    img.create_oval(x,y,x,y)
+class Control():
+    x = 1
+    y = 2
 
 
-for x in range(X):
-    for y in range(Y):
-        pix(x,y)
 
-print()
+ctr1 = Control()
+ctr1.x = 10
 
-root.mainloop()
+print(ctr1.x, ctr1.y)
+
+ctr2 = Control()
+print(ctr2.x, ctr2.y)
+
+
