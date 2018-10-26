@@ -1,12 +1,13 @@
 from tkinter import *
 from time import time
 
-X, Y = 800, 600
-MAX_ITER = 100
+X, Y = 300, 200
+MAX_ITER = 50
+BASE_SIZE = X/4
 scale = 0
 
 def size1(s):
-    return 200*10**(s)
+    return BASE_SIZE*10**(s)
 
 s1 = size1(scale)
 
