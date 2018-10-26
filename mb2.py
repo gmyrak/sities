@@ -2,9 +2,13 @@ from tkinter import *
 from time import time
 
 X, Y = 800, 600
-MAX_ITER = 50
-s1 = 200
+MAX_ITER = 100
+scale = 0
 
+def size1(s):
+    return 200*10**(s)
+
+s1 = size1(scale)
 
 
 px0, py0 = 3 * X / 5, Y / 2
@@ -94,12 +98,12 @@ def cn_clisk(event):
 
 cn.bind('<Button-1>', cn_clisk)
 
-ent_scale = Entry(pn, width=12)
+ent_scale = Entry(pn, width=8)
 ent_iter = Entry(pn, width=8)
 
 def action():
-    global s1, px0, py0, MAX_ITER
-    s2 = int(ent_scale.get())
+    global s1, px0, py0, MAX_ITER, scale
+    s2 = size1(float(ent_scale.get()))
     px0 = X/2 - s2*(cx - px0)/s1
     py0 = Y/2 + s2*(py0 - cy)/s1
     s1 = s2
@@ -114,7 +118,7 @@ Label(pn, text='  Scale:').pack(side='left')
 
 
 ent_scale.pack(side='left')
-ent_scale.insert(0, str(s1))
+ent_scale.insert(0, str(scale))
 
 Label(pn, text='  Iter: ').pack(side='left')
 ent_iter.pack(side='left')
