@@ -4,6 +4,7 @@ from time import time
 X, Y = 800, 600
 MAX_ITER = 100
 BASE_SIZE = X/4
+
 scale = 0
 
 def size1(s):
@@ -27,14 +28,23 @@ def mandelbrot(c):
         i += 1
     return i
 
+def rgb(r, g, b):
+    return '#{:03x}{:03x}{:03x}'.format(int(0xfff*r), int(0xfff*g), int(0xfff*b))
 
-def color(n):
-    tone = int(0xFFF - 0xFFF * n/MAX_ITER)
-    return '#{:03x}{:03x}{:03x}'.format(tone, tone, tone)
-#    if n==MAX_ITER:
-#        return '#000'
-#    else:
-#        return '#fff'
+
+def color(level):
+    L = 5*level
+    if L < 1:
+        return rgb(L, 0, 0)
+    elif L < 2:
+        return rgb(2-L, L-1, 0)
+    elif L < 3:
+        return rgb(0, 3-L, L-2)
+    elif L < 5:
+        return rgb((L-3)/2, (L-3)/2, 1)
+    else:
+        return rgb(1, 1, 1)
+
 
 
 def dec_x(i):
@@ -71,7 +81,7 @@ def draw():
             cn.update()
         for j in range(Y):
             c = complex(dec_x(i), dec_y(j))
-            img.put( color(mandelbrot(c)) , to=(i, j))
+            img.put( color(1 - mandelbrot(c)/MAX_ITER ) , to=(i, j))
     cn.create_image(0, 0, anchor=NW, image=img)
     cn.create_line(0, py0, X, py0, arrow='last')
     cn.create_line(px0, Y, px0, 0, arrow='last')
