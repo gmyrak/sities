@@ -32,10 +32,6 @@ def mandelbrot(c):
 def color(n):
     tone = int(0xFFF - 0xFFF * n/MAX_ITER)
     return '#{:03x}{:03x}{:03x}'.format(tone, tone, tone)
-#    if n==MAX_ITER:
-#        return '#000'
-#    else:
-#        return '#fff'
 
 
 def dec_x(i):
