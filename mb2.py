@@ -29,9 +29,19 @@ def mandelbrot(c):
     return i
 
 
-def color(n):
-    tone = int(0xFFF - 0xFFF * n/MAX_ITER)
-    return '#{:03x}{:03x}{:03x}'.format(tone, tone, tone)
+def color(level):
+    L = 5*level
+    if L < 1:
+        return rgb(L, 0, 0)
+    elif L < 2:
+        return rgb(2-L, L-1, 0)
+    elif L < 3:
+        return rgb(0, 3-L, L-2)
+    elif L < 5:
+        return rgb((L-3)/2, (L-3)/2, 1)
+    else:
+        return rgb(1, 1, 1)
+
 
 
 def dec_x(i):
