@@ -29,6 +29,10 @@ def mandelbrot(c):
     return i
 
 
+def rgb(r, g, b):
+    return '#{:03x}{:03x}{:03x}'.format(int(0xfff*r), int(0xfff*g), int(0xfff*b))
+
+
 def color(level):
     L = 5*level
     if L < 1:
@@ -78,7 +82,7 @@ def draw():
             cn.update()
         for j in range(Y):
             c = complex(dec_x(i), dec_y(j))
-            img.put( color(mandelbrot(c)) , to=(i, j))
+            img.put( color(1 - mandelbrot(c)/MAX_ITER) , to=(i, j))
     cn.create_image(0, 0, anchor=NW, image=img)
     cn.create_line(0, py0, X, py0, arrow='last')
     cn.create_line(px0, Y, px0, 0, arrow='last')
