@@ -1,9 +1,11 @@
 from tkinter import *
+from tkinter import filedialog as fd
 from time import time
-"Commit from Ubuntu"
+import re
 
-X, Y = 800, 600
-MAX_ITER = 100
+
+X, Y = 600, 400
+MAX_ITER = 20
 BASE_SIZE = X/4
 scale = 0
 
@@ -33,7 +35,7 @@ def rgb(r, g, b):
     return '#{:03x}{:03x}{:03x}'.format(int(0xfff*r), int(0xfff*g), int(0xfff*b))
 
 
-def color(level):
+def color_pal(level):
     L = 5*level
     if L < 1:
         return rgb(L, 0, 0)
@@ -46,6 +48,19 @@ def color(level):
     else:
         return rgb(1, 1, 1)
 
+
+def color_gray(level):
+    return rgb(level, level, level)
+
+
+def color_black(level):
+    if level > 0:
+        return rgb(1, 1, 1)
+    else:
+        return rgb(0, 0, 0)
+
+
+#color = color_gray
 
 
 def dec_x(i):
@@ -63,11 +78,24 @@ cn = Canvas(root, width=X, height=Y, bg='white')
 cn.pack()
 
 
+
+pinfo = Frame(root, bg='white', height=20, relief='raise')
+info= Label(pinfo, bg='white')
+
+
 img = PhotoImage(width=X,height=Y)
 
 
 
 def draw():
+    if rb_state.get() == 1:
+        color = color_black
+    elif rb_state.get() == 2:
+        color = color_gray
+    else:
+        color = color_pal
+
+    info['text'] = 'Calculate...'
     t0 = time()
     cn.delete('all')
     inf = cn.create_text(X / 2, Y / 2, text='', anchor='center')
@@ -87,13 +115,15 @@ def draw():
     cn.create_line(0, py0, X, py0, arrow='last')
     cn.create_line(px0, Y, px0, 0, arrow='last')
     cn.delete(inf)
-    print('Draw fractal {}x{} ({} iter): {:2f} c'.format(X, Y, MAX_ITER, time() - t0))
+
+    info['text'] = 'Size: {}x{}; Iter: {}; Time: {:2f} c; (x={}, y={}); Width: {}'.format(X, Y, MAX_ITER, time() - t0, dec_x(X/2), dec_y(Y/2), Y/s1)
 
 
-draw()
+#draw()
 
+root.after(0, draw)
 
-pn = Frame(height=50)
+pn = Frame(height=60)
 pn.pack(fill='x')
 
 
@@ -125,7 +155,7 @@ def action():
 
 
 act = Button(pn, text='Redraw', command=action)
-act.pack(side='left')
+act.pack(side='left', padx=10)
 
 Label(pn, text='  Scale:').pack(side='left')
 
@@ -136,6 +166,42 @@ ent_scale.insert(0, str(scale))
 Label(pn, text='  Iter: ').pack(side='left')
 ent_iter.pack(side='left')
 ent_iter.insert(0, str(MAX_ITER))
+
+
+def save():
+    fn = fd.asksaveasfilename(initialdir='.', title='Save picture', filetypes=(('gif file', '*.gif'),))
+    if fn:
+        if not re.search(r'\.gif', fn, re.I):
+            fn += '.gif'
+        img.write(fn)
+        print('Save to file: {}'.format(fn))
+    else:
+        print('Cancel')
+
+
+sv = Button(pn, text='Save', command=save)
+
+chouse_color = LabelFrame(pn, text='Color Type')
+chouse_color.pack(side='left', padx=20)
+
+rb_state = IntVar()
+rb_state.set(2)
+
+rb1 = Radiobutton(chouse_color, text='Black', indicatoron=0, variable=rb_state, value=1)
+rb2 = Radiobutton(chouse_color, text='Gray', indicatoron=0, variable=rb_state, value=2)
+rb3 = Radiobutton(chouse_color, text='Color', indicatoron=0, variable=rb_state, value=3)
+rb1.pack(side='left')
+rb2.pack(side='left')
+rb3.pack(side='left')
+
+
+#b1 = Button(chouse_color, text='OK').pack(side='left')
+sv.pack(side='left')
+
+pinfo.pack(fill ='x')
+info.pack(side='left')
+info['text'] = 'Hello!'
+
 
 
 root.mainloop()

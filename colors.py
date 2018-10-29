@@ -20,7 +20,12 @@ def rgb(r, g, b):
     #return '#{:02x}{:02x}{:02x}'.format(int(0xff * r), int(0xff * g), int(0xff * b))
     #return '#{:01x}{:01x}{:01x}'.format(int(0xf * r), int(0xf * g), int(0xf * b))
 
-def color(level):
+
+def color_gray(level):
+    return rgb(level, level, level)
+
+
+def color_spectr(level):
     L = 5*level
     if L < 1:
         return rgb(L, 0, 0)
@@ -34,6 +39,15 @@ def color(level):
         return rgb(1, 1, 1)
 
 
+def spectr2(level):
+    r = min(level, 1)
+    g = min(5*level, 1)
+    b = min(10*level, 1)
+    return rgb(r, g, b)
+
+
+
+color = spectr2
 
 for x in range(MAX):
     p = x/(MAX-1)
@@ -43,6 +57,7 @@ for x in range(MAX):
 img2= PhotoImage(width=X,height=Y)
 img2.put(rgb(0.5, 0.5, 0), to=(50, 0, 60, Y))
 
+#but.config(command= lambda : CNV.itemconfig(im, image=img2))
 but.config(command= lambda : CNV.itemconfig(im, image=img2))
 
 
