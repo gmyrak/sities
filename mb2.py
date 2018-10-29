@@ -4,8 +4,8 @@ from time import time
 import re
 
 
-X, Y = 600, 400
-MAX_ITER = 20
+X, Y = 1024, 768
+MAX_ITER = 80
 BASE_SIZE = X/4
 scale = 0
 
