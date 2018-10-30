@@ -5,8 +5,8 @@ import re
 from threading import Thread
 
 
-X, Y = 1024, 768
-MAX_ITER = 80
+X, Y = 800, 600
+MAX_ITER = 50
 BASE_SIZE = X/4
 scale = 0
 
@@ -22,6 +22,7 @@ point_r = 3
 pointer = 0
 
 cx, cy = X/2, Y/2
+
 
 def mandelbrot(c):
     z = c
@@ -89,6 +90,7 @@ img = PhotoImage(width=X,height=Y)
 
 
 def draw():
+    global img
 
     act['state'] = DISABLED
 
@@ -101,24 +103,33 @@ def draw():
 
     info['text'] = 'Calculate...'
     t0 = time()
-    cn.delete('all')
-    inf = cn.create_text(X / 2, Y / 2, text='', anchor='center')
+
+    #inf = cn.create_text(X / 2, Y / 2, text='', anchor='center')
     cn.update()
-    img.blank()
+    #img.blank()
     per = 0
+
+    tmp_img = PhotoImage(width=X,height=Y)
+    tmp_img.blank()
+
     for i in range(X):
         per2 = 100*i//X
         if per2 != per:
             per = per2
-            cn.itemconfig(inf, text='Processing: {:3}%'.format(per), )
-            cn.update()
+            info['text'] = 'Processing: {:3}%'.format(per)
+            info.update()
+            #cn.itemconfig(inf, text='Processing: {:3}%'.format(per), )
+            #cn.update()
         for j in range(Y):
             c = complex(dec_x(i), dec_y(j))
-            img.put( color(1 - mandelbrot(c)/MAX_ITER) , to=(i, j))
+            tmp_img.put( color(1 - mandelbrot(c)/MAX_ITER) , to=(i, j))
+
+    cn.delete('all')
+    img = tmp_img.copy()
     cn.create_image(0, 0, anchor=NW, image=img)
     cn.create_line(0, py0, X, py0, arrow='last')
     cn.create_line(px0, Y, px0, 0, arrow='last')
-    cn.delete(inf)
+    #cn.delete(inf)
 
     info['text'] = 'Size: {}x{}; Iter: {}; Time: {:2f} c; (x={}, y={}); Width: {}'.format(X, Y, MAX_ITER, time() - t0, dec_x(X/2), dec_y(Y/2), Y/s1)
 
@@ -156,8 +167,8 @@ def action():
     s1 = s2
     MAX_ITER = int(ent_iter.get())
     cx, cy = X/2, Y/2
-
-    Thread(target=draw).start()
+    draw()
+    #Thread(target=draw).start()
 
 
 act = Button(pn, text='Redraw', command=action)
@@ -175,7 +186,8 @@ ent_iter.insert(0, str(MAX_ITER))
 
 
 def save():
-    fn = fd.asksaveasfilename(initialdir='.', title='Save picture', filetypes=(('gif file', '*.gif'),))
+    fn = fd.asksaveasfilename(initialdir='.', title='Save picture', filetypes=(('gif file', '*.gif'), ('text', '*.txt') ))
+    print(fn)
     if fn:
         if not re.search(r'\.gif', fn, re.I):
             fn += '.gif'
@@ -192,6 +204,7 @@ chouse_color.pack(side='left', padx=20)
 
 rb_state = IntVar()
 rb_state.set(2)
+#rb_state = 2
 
 rb1 = Radiobutton(chouse_color, text='Black', indicatoron=0, variable=rb_state, value=1)
 rb2 = Radiobutton(chouse_color, text='Gray', indicatoron=0, variable=rb_state, value=2)
@@ -208,6 +221,8 @@ pinfo.pack(fill ='x')
 info.pack(side='left')
 info['text'] = 'Hello!'
 
-Thread(target=draw).start()
+root.after(0, draw)
+#Thread(target=draw).start()
+
 
 root.mainloop()

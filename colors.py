@@ -70,8 +70,21 @@ def long():
     but['state'] = NORMAL
 #t =
 
-but['command']= lambda : Thread(target=long).start()
+but['command']= lambda : print(rb1.)
 
+
+#rb_state = IntVar()
+#rb_state.set(2)
+rb_state = 2
+
+chouse_color = LabelFrame(text='Color Type')
+chouse_color.pack(side='left', padx=20)
+rb1 = Radiobutton(chouse_color, text='Black', indicatoron=0, variable=rb_state, value=1)
+rb2 = Radiobutton(chouse_color, text='Gray', indicatoron=0, variable=rb_state, value=2)
+rb3 = Radiobutton(chouse_color, text='Color', indicatoron=0, variable=rb_state, value=3)
+rb1.pack(side='left')
+rb2.pack(side='left')
+rb3.pack(side='left')
 
 
 root.mainloop()
