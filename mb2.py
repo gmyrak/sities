@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import filedialog as fd
 from time import time
 import re
+from threading import Thread
 
 
 X, Y = 1024, 768
@@ -88,6 +89,9 @@ img = PhotoImage(width=X,height=Y)
 
 
 def draw():
+
+    act['state'] = DISABLED
+
     if rb_state.get() == 1:
         color = color_black
     elif rb_state.get() == 2:
@@ -118,10 +122,11 @@ def draw():
 
     info['text'] = 'Size: {}x{}; Iter: {}; Time: {:2f} c; (x={}, y={}); Width: {}'.format(X, Y, MAX_ITER, time() - t0, dec_x(X/2), dec_y(Y/2), Y/s1)
 
+    act['state'] = NORMAL
+
 
 #draw()
-
-root.after(0, draw)
+#root.after(0, draw)
 
 pn = Frame(height=60)
 pn.pack(fill='x')
@@ -151,7 +156,8 @@ def action():
     s1 = s2
     MAX_ITER = int(ent_iter.get())
     cx, cy = X/2, Y/2
-    draw()
+
+    Thread(target=draw).start()
 
 
 act = Button(pn, text='Redraw', command=action)
@@ -202,6 +208,6 @@ pinfo.pack(fill ='x')
 info.pack(side='left')
 info['text'] = 'Hello!'
 
-
+Thread(target=draw).start()
 
 root.mainloop()

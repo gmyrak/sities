@@ -1,4 +1,7 @@
 from tkinter import *
+import time
+from threading import Thread
+
 
 X, Y = 800, 100
 
@@ -10,6 +13,7 @@ CNV.pack()
 
 but = Button(text='OK')
 but.pack()
+
 
 img = PhotoImage(width=X,height=Y)
 im = CNV.create_image(0, 0, anchor=NW, image=img)
@@ -57,8 +61,17 @@ for x in range(MAX):
 img2= PhotoImage(width=X,height=Y)
 img2.put(rgb(0.5, 0.5, 0), to=(50, 0, 60, Y))
 
-#but.config(command= lambda : CNV.itemconfig(im, image=img2))
-but.config(command= lambda : CNV.itemconfig(im, image=img2))
+
+def long():
+    but['state']= DISABLED
+    for i in range(10):
+        print(i)
+        time.sleep(1)
+    but['state'] = NORMAL
+#t =
+
+but['command']= lambda : Thread(target=long).start()
+
 
 
 root.mainloop()
