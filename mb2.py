@@ -186,12 +186,12 @@ ent_iter.insert(0, str(MAX_ITER))
 
 
 def save():
-    fn = fd.asksaveasfilename(initialdir='.', title='Save picture', filetypes=(('gif file', '*.gif'), ('text', '*.txt') ))
+    fn = fd.asksaveasfilename(initialdir='.', title='Save picture', filetypes=(('PNG file', '*.png'),))
     print(fn)
     if fn:
-        if not re.search(r'\.gif', fn, re.I):
-            fn += '.gif'
-        img.write(fn)
+        if not re.search(r'\.png', fn, re.I):
+            fn += '.png'
+        img.write(fn, format='png')
         print('Save to file: {}'.format(fn))
     else:
         print('Cancel')
