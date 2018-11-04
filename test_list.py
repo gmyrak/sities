@@ -7,12 +7,6 @@ LSET = set()
 L = []
 #LSET = []
 
-'''
-if type(LSET) == list:
-    add = lambda n: LSET.append(n)
-elif type(LSET) == set:
-    add = lambda n: LSET.add(n)
-'''
 
 for i in range(30_000):
     k = random.randint(1, 1_000_000)

@@ -70,7 +70,7 @@ def long():
     but['state'] = NORMAL
 #t =
 
-but['command']= lambda : print(rb1.)
+#but['command']= lambda : print(rb1.)
 
 
 #rb_state = IntVar()
