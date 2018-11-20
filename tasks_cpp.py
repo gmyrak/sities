@@ -14,7 +14,7 @@ codebase = f.read()
 
 i = 1
 for code in re.findall(r'void\s+task\d+\(\)\s*{\s*(.+?)\n}', codebase, re.DOTALL):
-    cpp = open('cpp/task_{}.cpp'.format(i), mode='w', encoding='cp1251')
+    cpp = open('cpp/task_{}.cpp'.format(i), mode='w', encoding='utf-8')
     cpp.write(template.format(CODE=code))
     cpp.close()
     i += 1

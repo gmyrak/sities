@@ -3,7 +3,7 @@ using namespace std;
 
 int main()
 {
-    // Количество нулей в двоичном разложении
+    // РљРѕР»РёС‡РµСЃС‚РІРѕ РЅСѓР»РµР№ РІ РґРІРѕРёС‡РЅРѕРј СЂР°Р·Р»РѕР¶РµРЅРёРё
 	ifstream inp("input.txt");
 	ofstream out("output.txt");
 	int n;

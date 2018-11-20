@@ -3,7 +3,7 @@ using namespace std;
 
 int main()
 {
-    // Количество нечетных цифр
+    // РљРѕР»РёС‡РµСЃС‚РІРѕ РЅРµС‡РµС‚РЅС‹С… С†РёС„СЂ
 	ifstream inp("input.txt");
 	ofstream out("output.txt");
 	int n;

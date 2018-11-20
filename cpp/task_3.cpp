@@ -3,7 +3,7 @@ using namespace std;
 
 int main()
 {
-    // Целочисленный логарифм
+    // Р¦РµР»РѕС‡РёСЃР»РµРЅРЅС‹Р№ Р»РѕРіР°СЂРёС„Рј
 	ifstream inp("input.txt");
 	ofstream out("output.txt");
 	int n;
